@@ -7,7 +7,14 @@ import pickle
 
 # Used to securely store your API key
 
-genai.configure(api_key='AIzaSyALUqbbSHUBN5qmW46rJ98P_l_QGZkilW0')
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+API_KEY = os.getenv('API_KEY')
+
+genai.configure(api_key=API_KEY)
 
 df = pd.read_csv('./Chat/embeddingv3.csv')
 
