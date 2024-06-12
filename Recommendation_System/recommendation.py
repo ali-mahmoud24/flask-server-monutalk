@@ -118,7 +118,6 @@ def recommend(museum_name):
     recommended_museum_names = category_filtered_museums.iloc[similar_indices]['name'].tolist()
     return recommended_museum_names
 
-museums = recommend("The Grand Egyptian Museum")
 
 def get_museums():
   return data['name'].values.tolist()

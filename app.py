@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
 
 from Recommendation_System.recommendation import get_museums, get_recommendations
+from CNN.model import show_info
 
 
 
@@ -10,11 +12,11 @@ CORS(app)
 
 
 
-# UPLOAD_FOLDER = '/content/uploads'  # Define the upload folder path
-# if not os.path.exists(UPLOAD_FOLDER):
-#     os.makedirs(UPLOAD_FOLDER)
+UPLOAD_FOLDER = '/uploads'  # Define the upload folder path
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 
@@ -23,27 +25,24 @@ def hello():
     return 'Hello, this is your Flask API!'
 
 
-
 # CNN
 
-# @app.route('/upload', methods=['POST'])
-# def upload_file():
-#     if 'image' not in request.files:
-#         return 'No file part'
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'image' not in request.files:
+        return 'No file part'
 
-#     file = request.files['image']
+    file = request.files['image']
 
-#     if file.filename == '':
-#         return 'No selected file'
+    if file.filename == '':
+        return 'No selected file'
 
-#     if file:
-#       # info = show_info(file)
-#       file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-#       file.save(file_path)
+    if file:
+      file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+      file.save(file_path)
 
-#       name, info, questions = show_info(file_path)
-#       print(name,info,questions)
-#       return jsonify({'name': name, 'info': info, 'questions': questions})
+      name, info, questions = show_info(file_path)
+      return jsonify({'name': name, 'info': info, 'questions': questions})
 
 
 
