@@ -4,6 +4,7 @@ import os
 
 from Recommendation_System.recommendation import get_museums, get_recommendations
 from Chat.chat import output_of_to_genai
+from Sentiment_Analysis.main import predict_sentiment
 # from CNN.model import show_info
 
 
@@ -47,17 +48,17 @@ CORS(app)
 
 
 
-# # SENTIEMENT ANALYSIS
+# SENTIEMENT ANALYSIS
 
-# # Send data as json { "review": ['text..............'] }
-# @app.route('/predict', methods=['POST'])
-# def predict_review():
+# Send data as json { "review": ['text..............'] }
+@app.route('/predict', methods=['POST'])
+def predict_review():
 
-#   review = request.json['review']
+  review = request.json['review']
 
-#   rating = predict_sentimnet(review)
+  rating = predict_sentiment(review)
 
-#   return jsonify({'rating': rating})
+  return jsonify({'rating': rating})
 
 
 
@@ -72,7 +73,7 @@ def get_museum_options():
 
 
 
-  # Send data as json { "museum": 'text..............' }
+# Send data as json { "museum": 'text..............' }
 @app.route('/recommend', methods=['POST'])
 def recommend_museum():
 
