@@ -142,8 +142,9 @@ def get_recommendations(museum_name):
   museum_category = data['category'][index]
   museum_description = data['Description'][index]
   museum_location = data['State_Name'][index]
+  museum_location_url = data['Location_URL'][index]
 
-  search_result = { 'name' : museum_name , 'category' : museum_category , 'description' : museum_description , 'location' : museum_location}
+  search_result = { 'name' : museum_name , 'category' : museum_category , 'description' : museum_description , 'location' : museum_location, 'locationUrl': museum_location_url}
 
 
   for museum_name in museums:
@@ -153,8 +154,10 @@ def get_recommendations(museum_name):
     museum_category = data['category'][index]
     museum_description = data['Description'][index]
     museum_location = data['State_Name'][index]
+    museum_location_url = data['Location_URL'][index]
 
-    museum = { 'name' : museum_name , 'category' : museum_category , 'description' : museum_description , 'location' : museum_location}
+
+    museum = { 'name' : museum_name , 'category' : museum_category , 'description' : museum_description , 'location' : museum_location, 'locationUrl': museum_location_url}
 
 
     recommended_museums.append(museum)
