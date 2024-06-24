@@ -18,7 +18,7 @@ genai.configure(api_key=API_KEY)
 
 df = pd.read_csv('./Chat/embeddingv3.csv')
 
-with open('./Chat/embeddingdatav1.pickle', 'rb') as file:
+with open('./Chat/embeddingdatav3.pickle', 'rb') as file:
     # Deserialize and retrieve the variable from the file
     loaded_data = pickle.load(file)
 
@@ -37,22 +37,25 @@ def find_best_passage(query, dataframe):
   idx = np.argmax(dot_products)
   return dataframe.iloc[idx]['Text'] # Return text from index with max value
 
-def make_prompt(query, relevant_passage):
-  escaped = relevant_passage.replace("'", "").replace('"', "").replace("\n", " ")
-  prompt = textwrap.dedent("""You are a helpful and informative bot for an interactive application that answers questions using text from the reference passage included below. \
-  answer as if ur the character talking. for example if your asked about the sphinx, answer as if you are the sphinx talking \
-  Be sure to respond in a complete sentence, being comprehensive, including all relevant background information. \
-  However, you are talking to a simple audience, so be sure to break down complicated big paragraphs and answer in small sentences relative to the question only and \
-  strike a friendly and converstional tone. \
-  additionally give question recomendations to continue the conversation. \
-  If the passage is irrelevant to the answer, you may ignore it.
-  QUESTION: '{query}'
-  PASSAGE: '{relevant_passage}'
 
-    ANSWER:
-  """).format(query=query, relevant_passage=escaped)
 
-  return prompt
+  def make_prompt(query, relevant_passage):
+    escaped = relevant_passage.replace("'", "").replace('"', "").replace("\n", " ")
+    prompt = textwrap.dedent("""You are a helpful and informative bot for an interactive application that answers questions using text from the reference passage included below. \
+    answer as if you are the character talking. for example if your asked about the sphinx, answer as if you are the sphinx talking \
+    Be sure to respond in a complete sentence, being comprehensive, including all relevant background information. \
+    However, you are talking to a simple audience, so be sure to break down complicated big paragraphs and answer in small sentences relative to the question only and \
+    strike a friendly and conversational tone. \
+    additionally give question recomendations to continue the conversation. \
+    If the passage is irrelevant to the answer, you may ignore it. Dont use emojis ever
+    QUESTION: '{query}'
+    PASSAGE: '{relevant_passage}'
+
+      ANSWER:
+    """).format(query=query, relevant_passage=escaped)
+
+    return prompt
+    
 
 def gen_ans(x):
   query = x
